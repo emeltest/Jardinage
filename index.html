@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jardin de Bresse – guide pas à pas</title>
+<meta name="description" content="Que faire au jardin ce mois-ci en Bresse ? Calendrier et parcours pas à pas pour débuter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF2E6;--ink:#1D2B26;--pond:#1F4B47;--leaf:#4F7F2C;--sun:#E8B63A;--mute:#55665E;--line:#C5D0BA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.65 "Atkinson Hyperlegible",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.1;margin:0 0 .5em}
+a{color:var(--pond)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;max-width:1000px}
+.brand{font:800 1.25rem "Bricolage Grotesque",sans-serif;text-decoration:none;color:var(--pond)}
+nav a{margin-right:18px;text-decoration:none;font-weight:700}
+nav a:hover{text-decoration:underline}
+.hero{background:var(--pond);color:#F1F5EA;padding:48px 0 40px}
+.hero p{margin:0 0 6px;color:#BFD3C6}
+.hero h1{font-size:clamp(2.6rem,11vw,5.2rem);font-weight:800;color:var(--sun);margin-bottom:.3em}
+.hero ul{list-style:none;padding:0;margin:0;font-size:1.15rem}
+.hero li{padding:10px 0 10px 18px;border-left:4px solid var(--sun);margin-bottom:10px}
+.btn{display:inline-block;background:var(--sun);color:var(--ink);font-weight:700;text-decoration:none;padding:12px 22px;border-radius:4px;margin:8px 12px 8px 0}
+.btn.alt{background:transparent;border:2px solid var(--pond);color:var(--pond)}
+section.block{padding:32px 0}
+.steps{list-style:none;padding:0;margin:0}
+.steps li{border-top:1px solid var(--line);padding:16px 0;display:flex;gap:16px;justify-content:space-between;align-items:baseline}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps a{font-weight:700;font-size:1.1rem}
+.meta{color:var(--mute);font-size:.95rem}
+.check{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.check input{width:24px;height:24px;margin-top:3px;accent-color:var(--leaf);flex:none}
+.note{background:#fff;border-left:4px solid var(--leaf);padding:12px 16px;margin:20px 0}
+.vid{aspect-ratio:16/9;width:100%;border:0;background:#000}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:32px 0 0;font-weight:700}
+.cal{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto;padding:0 20px}
+.cal div{padding:14px 0 6px;border-top:3px solid var(--line)}
+.cal .now{border-top-color:var(--sun)}
+.cal ul{padding-left:18px;margin:0}
+footer{color:var(--mute);font-size:.9rem;padding:32px 0 48px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<a class="brand" href="#/">Jardin de Bresse</a>
+<nav><a href="#/parcours">Parcours débutant</a><a href="#/calendrier">Calendrier</a></nav>
+</div></header>
+<main id="app"></main>
+<footer><div class="wrap">Guide en construction. Les dates sont indicatives : elles varient selon l'année et ton terrain.</div></footer>
+
+<script>
+const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const CAL=[
+["Planifier les cultures de l'année et commander les graines","Nettoyer et affûter les outils","Tailler les arbres fruitiers hors période de gel"],
+["Semer sous abri tomates et poivrons (fin du mois)","Tailler les rosiers en fin d'hiver","Éviter de travailler un sol gelé ou détrempé"],
+["Semer en pleine terre carottes, radis et petits pois si le sol est ressuyé","Semer les premières salades","Surveiller les gelées tardives"],
+["Planter les pommes de terre","Semer salades, betteraves et poireaux","Couvrir les jeunes pousses les nuits de gel"],
+["Attendre les Saints de glace (11 au 13 mai) avant de repiquer tomates et courgettes","Semer les haricots après les Saints de glace","Pailler le sol dès que la terre est réchauffée"],
+["Arroser le matin, au pied des plants","Tuteurer les tomates","Récolter radis, salades et premiers petits pois"],
+["Arroser abondamment mais rarement","Récolter courgettes, haricots et tomates régulièrement","Semer carottes et navets pour l'automne"],
+["Récolter et conserver : sécher, congeler, mettre en bocaux","Semer mâche et épinards fin août","Garder le paillage épais contre la sécheresse"],
+["Semer des engrais verts (moutarde, phacélie) sur les places libres","Récolter courges et pommes de terre","Semer la mâche"],
+["Planter l'ail et les oignons","Étaler du compost sur la terre libre","Ramasser les feuilles mortes pour le paillage"],
+["Planter les arbres fruitiers à racines nues","Pailler les cultures d'hiver","Laisser la terre se reposer, sans la retourner"],
+["Protéger les plantes fragiles du gel","Entretenir et ranger les outils","Préparer le plan du potager de l'an prochain"]
+];
+const ETAPES=[
+{t:"Observer et préparer",d:"1 h 30",o:"Savoir où et comment tu vas jardiner, sans rien planter.",
+ k:["Repérer les zones de soleil à trois moments de la journée (6 h de soleil minimum pour tomates et courgettes)","Repérer le point d'eau le plus proche (idéalement à moins de 20 m)","Faire le test du sol : rouler une poignée de terre humide en boudin","Délimiter un carré de 4 m² (2 m × 2 m) avec des piquets et une ficelle","Rassembler 4 outils : bêche, râteau, arrosoir, gants"],
+ a:"Test du sol : le boudin se brise tout de suite = sol sableux. Il se roule mais se fissure = sol équilibré. Il reste lisse et collant = sol argileux, fréquent en Bresse.",
+ e:["Choisir un coin trop ombragé parce qu'il est près de la maison","Voir trop grand dès le début","Acheter beaucoup de matériel avant de savoir ce qu'on aime"],
+ q:"comprendre son sol test du boudin jardin",n:"Prends 20 minutes pour observer le soleil dans ton jardin."},
+{t:"Améliorer la terre",d:"2 h",o:"Rendre la terre souple et nourrie.",
+ k:["Désherber le carré à la main","Aérer à la fourche-bêche sans retourner la terre","Étaler 3 à 5 cm de compost mûr","Couvrir d'un paillage (paille, tontes sèches, feuilles)"],
+ a:"En sol argileux, la matière organique (compost, paillage) allège la terre au fil des saisons.",
+ e:["Retourner la terre en profondeur","Utiliser un compost pas assez mûr","Laisser le sol nu"],
+ q:"faire du compost jardin débutant",n:"Ton carré est prêt : étale du compost et couvre-le."},
+{t:"Premiers semis et plants",d:"2 h",o:"Planter 4 cultures faciles au bon moment.",
+ k:["Choisir 4 cultures parmi radis, salade, haricots, courgettes (ail et oignons en automne)","Lire le sachet : profondeur et espacement","Semer ou planter","Arroser en pluie fine","Noter la date dans un carnet"],
+ a:"Attends les Saints de glace (11 au 13 mai) avant de sortir les plants sensibles au froid : tomates, courgettes, haricots.",
+ e:["Semer trop dense","Semer trop tôt","Oublier d'étiqueter"],
+ q:"premiers semis potager débutant radis salade",n:"Pas de plants sensibles au froid avant les Saints de glace."},
+{t:"Arroser et protéger",d:"1 h",o:"Arroser juste et repérer les premiers ennemis.",
+ k:["Arroser le matin, au pied, abondamment mais pas tous les jours","Vérifier le sol à 5 cm de profondeur avant d'arroser","Inspecter les feuilles (dessous aussi) deux fois dans la semaine","Ramasser les limaces à la tombée du jour"],
+ a:"Contre les pucerons, commence par un jet d'eau ou du savon noir dilué avant d'envisager autre chose.",
+ e:["Arroser le feuillage en plein soleil","Arroser un peu chaque jour","Traiter sans avoir identifié le problème"],
+ q:"limaces pucerons jardin solution naturelle",n:"Plante un doigt dans la terre avant d'arroser."},
+{t:"Entretenir",d:"1 h",o:"Prendre une routine de 15 minutes.",
+ k:["Éclaircir les semis trop serrés","Biner ou désherber légèrement","Tuteurer les plants qui montent","Renouveler le paillage si la terre se découvre"],
+ a:"Quinze minutes deux fois par semaine valent mieux qu'une grosse séance par mois.",
+ e:["Laisser les herbes monter en graines","Tuteurer trop tard","Négliger le paillage"],
+ q:"entretien potager routine débutant",n:"15 minutes d'entretien aujourd'hui ?"},
+{t:"Récolter et préparer la suite",d:"1 h 30",o:"Récolter au bon moment et décider de la suite.",
+ k:["Apprendre les signes de maturité de tes cultures","Récolter le matin, sans abîmer les plants","Noter ce qui a marché et ce qui a raté","Choisir les cultures suivantes pour la place libérée"],
+ a:"Ne laisse pas la terre nue après la récolte : sème un engrais vert (moutarde, phacélie) ou couvre-la.",
+ e:["Récolter trop tard (haricots durs, courgettes énormes)","Ne rien noter","Laisser le sol nu"],
+ q:"engrais verts potager moutarde phacélie",n:"Quelle culture va prendre la place de la récolte ?"}
+];
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const $=s=>document.querySelector(s);
+const li=a=>a.map(x=>`<li>${x}</li>`).join("");
+const done=n=>ETAPES[n-1].k.filter((_,i)=>store.get(`t-${n}-${i}`)==="1").length;
+
+function home(){const m=new Date().getMonth();
+return `<section class="hero"><div class="wrap"><p>Ce mois-ci au jardin en Bresse</p><h1>${MOIS[m][0].toUpperCase()+MOIS[m].slice(1)}</h1><ul>${li(CAL[m])}</ul></div></section>
+<div class="wrap"><section class="block"><h2>Tu débutes ? Suis le parcours.</h2>
+<p>Six semaines, une tâche principale par semaine, 4 m² de terre. À la fin, tu auras récolté tes premiers légumes.</p>
+<a class="btn" href="#/etape/1">Commencer la semaine 1</a><a class="btn alt" href="#/calendrier">Voir toute l'année</a></section></div>`}
+
+function parcours(){return `<div class="wrap"><section class="block"><h1>Mon premier potager en Bresse</h1>
+<p>Six semaines pour passer de la terre nue aux premières récoltes. Coche les tâches au fur et à mesure : ta progression reste sur ton appareil.</p>
+<ol class="steps">${ETAPES.map((e,i)=>`<li><a href="#/etape/${i+1}">Semaine ${i+1} : ${e.t}</a><span class="meta">${done(i+1)}/${e.k.length} faites · ${e.d}</span></li>`).join("")}</ol></section></div>`}
+
+function etape(n){const e=ETAPES[n-1];if(!e)return parcours();
+const yt=e.yt?`<iframe class="vid" src="https://www.youtube-nocookie.com/embed/${e.yt}" title="Vidéo de la semaine ${n}" allowfullscreen loading="lazy"></iframe>`:`<p><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(e.q)}" target="_blank" rel="noopener">Chercher une vidéo sur YouTube : « ${e.q} »</a></p>`;
+return `<div class="wrap"><section class="block"><p class="meta"><a href="#/parcours">Parcours</a> · ${e.d}</p>
+<h1>Semaine ${n} : ${e.t}</h1><p>${e.o}</p>
+<h2>À faire</h2>${e.k.map((x,i)=>`<label class="check"><input type="checkbox" data-k="t-${n}-${i}"><span>${x}</span></label>`).join("")}
+<div class="note">${e.a}</div>
+<h2>Erreurs fréquentes</h2><ul>${li(e.e)}</ul>
+<h2>Vidéo</h2>${yt}
+<p class="meta">Rappel de la semaine : ${e.n}</p>
+<div class="pager">${n>1?`<a href="#/etape/${n-1}">Semaine ${n-1}</a>`:`<span></span>`}${n<ETAPES.length?`<a href="#/etape/${n+1}">Semaine ${n+1}</a>`:`<a href="#/calendrier">Voir le calendrier</a>`}</div></section></div>`}
+
+function calendrier(){const m=new Date().getMonth();
+return `<div class="wrap"><section class="block"><h1>Calendrier du jardin en Bresse</h1><p>Repères pour un potager familial. Adapte-les à ton terrain et à la météo de l'année.</p></section></div>
+<div class="cal">${MOIS.map((x,i)=>`<div class="${i===m?"now":""}"><h3>${x[0].toUpperCase()+x.slice(1)}</h3><ul>${li(CAL[i])}</ul></div>`).join("")}</div>`}
+
+function route(){const p=(location.hash||"#/").split("/");const k=p[1],a=+p[2];
+$("#app").innerHTML=k==="parcours"?parcours():k==="etape"?etape(a):k==="calendrier"?calendrier():home();
+document.querySelectorAll("input[data-k]").forEach(c=>{c.checked=store.get(c.dataset.k)==="1";c.onchange=()=>store.set(c.dataset.k,c.checked?"1":"0")});
+scrollTo(0,0)}
+addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>
